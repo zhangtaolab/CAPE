@@ -1,6 +1,0 @@
-Cutoff for defining key regions: 0.2206858628182301
-Cutoff deviation: 0.14761952458026795
-Phenotype differential ratio: 2.068493708514884
-Phenotype significance (U test): 0.00013344200450572446
-Phenotype significance (KS test): 0.00039633348496743623
-Phenotype significance (ANOVA): 1.367896595906319e-05
