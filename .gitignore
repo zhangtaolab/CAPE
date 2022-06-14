@@ -1,0 +1,11 @@
+__pycache__
+node_modules
+.vscode
+.idea
+.env
+.envrc
+.venv
+*.local
+*.log*
+logs
+.DS_Store
