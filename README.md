@@ -1,6 +1,6 @@
 # CAPE
 
-The computational pipeline of CAPE (<u>C</u>RISPR-Cas12<u>a</u> <u>p</u>romoter <u>e</u>diting)
+The computational pipeline of CAPE (<ins>C</ins>RISPR-Cas12<ins>a</ins> <ins>p</ins>romoter <ins>e</ins>diting)
 
 
 ## Prerequisition
@@ -91,6 +91,33 @@ chrom_sizes = osativa_7.chrom.sizes
 python batch.py config.ini
 ```
 
+## Input (Feature data processing)
+
+The instruction of how to generate feature data for calculation:  
+1. Open chromatin data:  
+(1) Raw sequencing data (from DNase-seq/ATAC-seq/MNase-seq) first align to reference genome by BWA/Bowtie2;  
+(2) Call peaks from the alignment using Macs2/Genrich/F-seq2/Popera;  
+(3) Generate profiles from the alignment (BigWig format, using DeepTools/F-seq2/Popera).  
+2. TF binding motifs:  
+(1) Download the TF PFM data from database (PlantTFDB/JASPAR/CisBP);  
+(2) Find the occurrences of TF motifs in the genome by FIMO;  
+(3) Merge results of all TF motifs (BED format, TFs from the same family can be merged into one).  
+3. Sequence conservation:  
+(1) Pre-calculated sequence conservation of plant genomes can be retrieved from PlantRegMap database;  
+(2) If no existed result for the target genome, calculate conservation scores using multiple close related genomes with PHAST/mVISTA.  
+4. H3K27ac histone modification:  
+(1) Raw sequencing data (from ChIP-seq) first align to reference genome by BWA/Bowtie2;  
+(2) Generate profiles from the alignment (BigWig format, using DeepTools).  
+5. Relationships between genomic variations and phenotypes (GenoPheno):  
+(1) Get the genotype data from public database, in FASTA format (for rice, using rice3K/RFGB/MBKBase/etc);  
+(2) Get the corresponding phenotype data from public database.   
+    (two column tab format, first column is Genotype_ID, second is Phenotype_Values separated by comma)  
+6. Genome annotation file (BED/GFF3 format) is required for getting the promoter of target gene.  
+7. Chromosome sizes file is required for converting input file format.  
+   (two column tab format, first column is chromosome name, second is chromosome length)  
+
+\* Note that H3K27ac and GenoPheno data are optional for analysis.
+
 ## Output
 
 All output files are stored in the workdir defined in the config.ini file.  
@@ -98,7 +125,7 @@ A folder will be created for each gene analyzed.
 In the output gene folder, several files are generated:  
 1. analysis_region.bed (File records the analyzed regions in the genome for this gene)
 2. OCpeaks_*_raw.bed (Open chromatin regions overlap with the analysis region)
-3. OCscores*.bedGraph (Open chromatin scores for the analysis region, raw means raw scores from BigWig file, others are normalized in range 0 to 1)
+3. OCscores*.bedGraph (Open chromatin scores for the analysis region, suffix 'raw' means raw scores from BigWig file, others are normalized in range 0 to 1)
 4. motifs*.bedGraph (Raw file contains motifs identified in the analysis region, another file is the normalized motifs scores)
 5. CNS*.bedGraph (Raw file contains raw conserved score in the analysis region, another file is the normalized CNS scores)
 6. PTM*.bedGraph (H3K27ac profile for the analysis region, scores from BigWig file, others are normalized in range 0 to 1)
