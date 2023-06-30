@@ -258,8 +258,11 @@ def run_analysis(feature_info):
     # Genotype versus Phenotype (MBKbase)
     genopheno = os.path.join(workdir, gene, "genopheno_raw.bedGraph")
     # Calculate scores
-    scores_genopheno = genopheno_scores(geneinfo, genopheno, outdir = workdir)
-
+    if os.path.exists(genopheno):
+        scores_genopheno = genopheno_scores(geneinfo, genopheno, outdir = workdir) 
+    else: 
+        scores_genopheno = {}
+    
     # Aggregate scores
     if scores_genopheno:
         scorelist = [scores_oc, scores_motif, scores_cns, scores_ptm, scores_genopheno]

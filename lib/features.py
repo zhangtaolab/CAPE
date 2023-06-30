@@ -662,7 +662,7 @@ def define_key_regions(geneinfo, aggregate, phenodata, threshold = 0, outdir = "
     outregion1.close()
     outregion2.close()
 
-    if phenodata:
+    if os.path.exists(phenodata):
         # Calculate statistical values
         outf = open(outdir + "/" + gene_alias + "/plot_scores.txt", "w")
         print("sample", "group", "ratio", "difference", sep="\t", file=outf)
